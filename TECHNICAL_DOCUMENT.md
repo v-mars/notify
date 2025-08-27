@@ -35,7 +35,7 @@ Notify 是一个统一消息通知管理系统，旨在提供一套支持多种�
 ### 2. 核心组件
 
 #### 2.1 Sender 接口
-所有消息渠道都必须实现 [Sender](file:///Users/zhangdonghai/work/dev/go/notify/notify.go#L12-L15) 接口：
+所有消息渠道都必须实现 [Sender](https://github.com/v-mars/notify/notify.go#L12-L15) 接口：
 
 ```go
 type Sender interface {
@@ -45,7 +45,7 @@ type Sender interface {
 ```
 
 #### 2.2 Manager 管理器
-[Manager](file:///Users/zhangdonghai/work/dev/go/notify/sender/sender.go#L34-L39) 是通知管理器，负责管理通知配置和发送消息：
+[Manager](https://github.com/v-mars/notify/sender/sender.go#L34-L39) 是通知管理器，负责管理通知配置和发送消息：
 
 ```go
 type Manager struct {
@@ -57,7 +57,7 @@ type Manager struct {
 ```
 
 #### 2.3 消息发送结果
-[SendResult](file:///Users/zhangdonghai/work/dev/go/notify/result/result.go#L12-L21) 表示单个渠道的消息发送结果：
+[SendResult](https://github.com/v-mars/notify/result/result.go#L12-L21) 表示单个渠道的消息发送结果：
 
 ```go
 type SendResult struct {
@@ -174,9 +174,9 @@ for _, result := range results {
 
 要添加新的消息渠道，需要：
 
-1. 实现 [Sender](file:///Users/zhangdonghai/work/dev/go/notify/notify.go#L12-L15) 接口
-2. 在 [SendToChannel](file:///Users/zhangdonghai/work/dev/go/notify/sender/sender.go#L109-L257) 方法中添加渠道类型判断和初始化逻辑
-3. 在 [NotifyConfig](file:///Users/zhangdonghai/work/dev/go/notify/types/types.go#L12-L21) 中添加相应的配置结构体
+1. 实现 [Sender](https://github.com/v-mars/notify/notify.go#L12-L15) 接口
+2. 在 [SendToChannel](https://github.com/v-mars/notify/sender/sender.go#L109-L257) 方法中添加渠道类型判断和初始化逻辑
+3. 在 [NotifyConfig](https://github.com/v-mars/notify/types/types.go#L12-L21) 中添加相应的配置结构体
 
 示例：
 ```go
