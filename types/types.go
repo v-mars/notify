@@ -55,6 +55,7 @@ type DingDing struct {
 
 // SmsConfig 短信配置
 type SmsConfig struct {
+	Type            string `json:"type,omitempty" yaml:"type"`
 	Host            string `json:"host" yaml:"host"`
 	AccessKeyId     string `json:"access_key_id" yaml:"access_key_id"`         // 访问密钥ID
 	AccessKeySecret string `json:"access_key_secret" yaml:"access_key_secret"` // 访问密钥
