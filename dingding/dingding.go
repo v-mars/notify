@@ -62,6 +62,10 @@ type text struct {
 	Text     string `json:"text"`
 	PhotoURL string `json:"photoURL"`
 }
+type markdown struct {
+	Title string `json:"title"`
+	Text  string `json:"text"`
+}
 
 type at struct {
 	AtMobiles []string `json:"atMobiles"`
@@ -70,9 +74,10 @@ type at struct {
 
 // SendMsg post json data
 type SendMsg struct {
-	MsgType string `json:"msgtype"`
-	Text    any    `json:"text"`
-	At      at     `json:"at"`
+	MsgType  string   `json:"msgtype"`
+	Markdown markdown `json:"markdown"`
+	Text     any      `json:"text"`
+	At       at       `json:"at"`
 }
 
 // NewDing init a Dingding send conf
@@ -119,10 +124,11 @@ func (d *Ding) Send(tos []string, title string, content string) (sendResult *res
 	sendMsg := SendMsg{
 		MsgType: d.MsgType,
 		Text: text{
-			Content:  title + "\n" + content + "\n",
-			Title:    title,
-			Text:     content,
-			PhotoURL: content,
+			Content: title + "\n" + content + "\n",
+		},
+		Markdown: markdown{
+			Title: title,
+			Text:  content,
 		},
 		At: at{
 			AtMobiles: tos,
