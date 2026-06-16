@@ -40,8 +40,12 @@ const (
 // Lark alarm conf
 type Lark struct {
 	types.Lark
-	Sl     Secure `json:"sl"`
-	Result *result.SendResult
+	Sl           Secure `json:"sl"`
+	Result       *result.SendResult
+	TitleTag     string
+	Subtitle     string
+	CardTemplate string // 卡片颜色主题：red, blue, green, orange 等
+	ElementsTag  string
 }
 
 // Result post resp
@@ -56,10 +60,11 @@ type Content struct {
 
 // SendMsg post json data
 type SendMsg struct {
-	Timestamp string  `json:"timestamp"`
-	Sign      string  `json:"sign"`
-	MsgType   string  `json:"msg_type"`
-	Content   Content `json:"content"`
+	Timestamp string         `json:"timestamp"`
+	Sign      string         `json:"sign"`
+	MsgType   string         `json:"msg_type"`
+	Content   Content        `json:"content"`
+	Card      map[string]any `json:"card"`
 }
 
 // NewLark init a Lark send conf
@@ -80,6 +85,9 @@ func NewLark(webHookUrl string, sl Secure, secret string) *Lark {
 			Error:        nil,
 			CostMs:       0,
 		},
+		TitleTag:     "plain_text",
+		CardTemplate: "blue",
+		ElementsTag:  "lark_md",
 	}
 
 	return &d
@@ -112,6 +120,28 @@ func (d *Lark) Send(tos []string, title string, content string) (sendResult *res
 		MsgType:   d.MsgType,
 		Content: Content{
 			Text: title + "\n" + content + "\n",
+		},
+		Card: map[string]any{
+			"header": map[string]interface{}{
+				"title": map[string]interface{}{
+					"tag":     d.TitleTag,
+					"content": title, // 卡片标题
+				},
+				"subtitle": map[string]interface{}{
+					"tag":     d.TitleTag,
+					"content": d.Subtitle, // 卡片标题
+				},
+				"template": d.CardTemplate, // 卡片颜色主题：red, blue, green, orange 等
+			},
+			"elements": []interface{}{
+				map[string]interface{}{
+					"tag": "div",
+					"text": map[string]interface{}{
+						"tag":     d.ElementsTag, // 飞书支持的 Markdown 标签
+						"content": content,
+					},
+				},
+			},
 		},
 	}
 
