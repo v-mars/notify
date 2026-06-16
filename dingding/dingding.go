@@ -47,6 +47,7 @@ type Ding struct {
 	types.DingDing
 	sl     Secrue
 	Result *result.SendResult
+	Data   any
 }
 
 // Result post resp
@@ -56,7 +57,10 @@ type Result struct {
 }
 
 type text struct {
-	Content string `json:"content"`
+	Content  string `json:"content"`
+	Title    string `json:"title"`
+	Text     string `json:"text"`
+	PhotoURL string `json:"photoURL"`
 }
 
 type at struct {
@@ -67,7 +71,7 @@ type at struct {
 // SendMsg post json data
 type SendMsg struct {
 	MsgType string `json:"msgtype"`
-	Text    text   `json:"text"`
+	Text    any    `json:"text"`
 	At      at     `json:"at"`
 }
 
@@ -115,12 +119,18 @@ func (d *Ding) Send(tos []string, title string, content string) (sendResult *res
 	sendMsg := SendMsg{
 		MsgType: d.MsgType,
 		Text: text{
-			Content: title + "\n" + content + "\n",
+			Content:  title + "\n" + content + "\n",
+			Title:    title,
+			Text:     content,
+			PhotoURL: content,
 		},
 		At: at{
 			AtMobiles: tos,
 			IsAtAll:   false,
 		},
+	}
+	if d.Data != nil {
+		sendMsg.Text = d.Data
 	}
 
 	resp, err := notify.JSONPost(http.MethodPost, reqUrl, sendMsg, http.DefaultClient, nil)
