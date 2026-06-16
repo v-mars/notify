@@ -113,7 +113,7 @@ func (d *Ding) Send(tos []string, title string, content string) (sendResult *res
 		reqUrl += fmt.Sprintf("&timestamp=%s&sign=%s", now, sign)
 	}
 	sendMsg := SendMsg{
-		MsgType: "text",
+		MsgType: d.MsgType,
 		Text: text{
 			Content: title + "\n" + content + "\n",
 		},

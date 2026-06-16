@@ -109,7 +109,7 @@ func (d *Lark) Send(tos []string, title string, content string) (sendResult *res
 	sendMsg := SendMsg{
 		Timestamp: fmt.Sprintf("%d", timestamp),
 		Sign:      sign,
-		MsgType:   "text",
+		MsgType:   d.MsgType,
 		Content: Content{
 			Text: title + "\n" + content + "\n",
 		},
