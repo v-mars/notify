@@ -48,6 +48,7 @@ type Wecom struct {
 	TextCard       map[string]interface{} `json:"textcard"`
 	Token          accessToken
 	toParty, toTag []string
+	MsgType        string
 }
 
 // Result 发送消息返回结果
@@ -88,6 +89,7 @@ func NewWeChat(cropID string, agentID int, agentSecret string,
 		TextCard: msgTextCard,
 		toParty:  toParty,
 		toTag:    toTag,
+		MsgType:  defaultMsgType,
 	}
 }
 
@@ -115,7 +117,7 @@ func (c *Wecom) Send(tos []string, title, content string) (sendResult *result.Se
 		ToUser:  strings.Join(tos, "|"),
 		ToParty: strings.Join(c.toParty, "|"),
 		ToTag:   strings.Join(c.toTag, "|"),
-		MsgType: defaultMsgType,
+		MsgType: c.MsgType,
 		Markdown: Content{
 			Content: title + "\n" + content,
 		},
@@ -152,7 +154,7 @@ func (c *Wecom) SendV2(tos, toParty, toTag []string, title, content string, msgT
 		ToUser:  strings.Join(tos, "|"),
 		ToParty: strings.Join(toParty, "|"),
 		ToTag:   strings.Join(toTag, "|"),
-		MsgType: defaultMsgType,
+		MsgType: c.MsgType,
 		Markdown: Content{
 			Content: title + "\n" + content,
 		},
